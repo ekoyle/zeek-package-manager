@@ -3310,7 +3310,10 @@ def _clone_package(package, clonepath, version):
     """
     delete_path(clonepath)
     shallow = not is_sha1(version)
-    return git_clone(package.git_url, clonepath, shallow=shallow)
+    branch = None
+    if shallow:
+        branch = version
+    return git_clone(package.git_url, clonepath, shallow=shallow, branch=branch)
 
 
 def _get_package_metadata(parser):
