@@ -124,13 +124,19 @@ def find_sentence_end(s):
 
 def git_clone(git_url, dst_path, shallow=False, branch=None):
     if shallow:
+        args = {}
+        if branch:
+            args["branch"] = branch
         try:
             git.Git().clone(
                 git_url,
                 dst_path,
-                "--no-single-branch",
+                # why?
+                # "--no-single-branch",
+                "--shallow-submodules",
                 recursive=True,
                 depth=1,
+                **args,
             )
         except git.GitCommandError:
             if not git_url.startswith(".") and not git_url.startswith("/"):
