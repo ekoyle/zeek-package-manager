@@ -2420,7 +2420,12 @@ class Manager:
                     continue
 
             try:
-                git_clone(git_url, clonepath, shallow=(not is_sha1(version)))
+                git_clone(
+                    git_url,
+                    clonepath,
+                    shallow=(not is_sha1(version)),
+                    branch=version,
+                )
             except git.GitCommandError as error:
                 return f"failed to clone {git_url}: {error}"
 

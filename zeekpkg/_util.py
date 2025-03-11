@@ -122,7 +122,7 @@ def find_sentence_end(s):
         beg = period_idx + 1
 
 
-def git_clone(git_url, dst_path, shallow=False):
+def git_clone(git_url, dst_path, shallow=False, branch=None):
     if shallow:
         try:
             git.Git().clone(
@@ -147,7 +147,10 @@ def git_clone(git_url, dst_path, shallow=False):
             rval.git.reset("--hard")
             rval.git.clean("-ffdx")
     else:
-        git.Git().clone(git_url, dst_path, recursive=True)
+        args = {"recursive": True}
+        if branch is not None:
+            args["branch"] = branch
+        git.Git().clone(git_url, dst_path, **args)
 
     rval = git.Repo(dst_path)
 
